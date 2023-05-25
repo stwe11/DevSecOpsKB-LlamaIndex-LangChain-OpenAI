@@ -39,13 +39,13 @@ def data_ingestion_indexing(directory_path):
 def data_querying(input_text):
 
     #rebuild storage context
-    storage_context = StorageContext.from_defaults()
+    storage_context = StorageContext.from_defaults(persist_dir="./storage")
 
     #loads index from storage
-    index = load_index_from_storage(service_context=service_context)
+    index = load_index_from_storage(storage_context)
     
     #queries the index with the input text
-    response = index.query(input_text, response_mode="compact")
+    response = index.as_query_engine().query(input_text)
     
     return response.response
 
